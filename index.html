@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<title>ShoppingItems</title>
+<style>
+    button {
+        margin: 5px 5px 5px 5px
+    }
+</style>
+
+<body>
+    <div id="app">
+        <h2>Get All (GET)</h2>
+        <table class="table" v-if="ShoppingItems.length">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in ShoppingItems">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.price}}kr</td>
+                    <td>{{item.quantity}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>Total Price: {{totalPrice.price}}kr</div>
+
+        <!-- Rest of your code -->
+
+
+
+
+        <h2>Add (Post)</h2>
+        <input v-model="addData.name" placeholder="name" type="text" />
+        <input v-model="addData.price" placeholder="price(kr)" type="number" />
+        <input v-model="addData.quantity" placeholder="quantity" type="number" />
+        <button v-on:click="addItem()" class="btn btn-success">Add</button>
+
+
+        <h2>Delete (Delete)</h2>
+        <input v-model.number="deleteId" placeholder="id" type="number" />
+        <button v-on:click="deleteItem(deleteId)" class="btn btn-warning">Delete</button>
+        {{deleteMessage}}
+
+    </div>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
