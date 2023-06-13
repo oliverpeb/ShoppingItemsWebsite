@@ -13,6 +13,13 @@ Vue.createApp({
             deleteId: 0,
             deleteMessage: "",
             totalPrice: 0,
+            quantityFilter: 0,
+            filteredItems: [],
+            updateId: 0,
+            updateData: { name: "", price: 0, quantity: 0 },
+            updateMessage: "",
+            sortMessage: "",
+            filterMessage: ""
         }
     },
     async created() {
@@ -20,6 +27,7 @@ Vue.createApp({
         this.helperGetAndShow(shoppingApiUrl)
         this.getTotalPrice()
     },
+    
     methods: {
         getAllItems(){
             this.helperGetAndShow(shoppingApiUrl)
@@ -47,21 +55,56 @@ Vue.createApp({
                 const response = await axios.post(shoppingApiUrl, this.addData)
                 this.addMessage = "response " + response.status + " " + response.statusText
                 this.getAllItems()
+                this.getTotalPrice()  // Added this line
 
             } catch (ex){
                 alert(ex.message)
             }
         },
+
+        sortItemsByPrice() {
+            this.ShoppingItems = [...this.ShoppingItems].sort((a, b) => a.price - b.price);
+            this.sortMessage = "Items have been sorted by price.";
+        },
+
+        //Filter så KUN den givne værdi bliver fremvist
+        filterItemsByQuantity() {
+            this.filteredItems = this.ShoppingItems.filter(item => item.quantity == this.quantityFilter);
+            this.filterMessage = "Items have been filtered by quantity.";
+        },
+
+        //Filter så den givne værdi og lavere bliver fremvist
+        /*
+        filterItemsByQuantity() {
+            this.filteredItems = this.ShoppingItems.filter(item => item.quantity < this.quantityFilter);
+            this.filterMessage = "Items have been filtered by quantity so that you have all the quantities lower than the one given.";
+        },
+        */
+        async updateItem() {
+            const url = shoppingApiUrl + "/" + this.updateId
+            try {
+                const response = await axios.put(url);
+                this.updateMessage = "Response " + response.status + " " + response.statusText;
+                this.getAllItems();  // To refresh the list after an update
+                this.getTotalPrice();  // To refresh the total price after an update
+            } catch (ex) {
+                alert(ex.message);
+            }
+        },
+
         async deleteItem(id){
             const url = shoppingApiUrl + "/" + id
             try{
                 const response = await axios.delete(url)
                 this.deleteMessage = "response " + response.status + " " + response.statusText
                 this.getAllItems()
+                this.getTotalPrice()  // Added this line
                 
             } catch (ex) {
                 alert(ex.message)
             }
         },
+
+        
     }
 }).mount("#app")

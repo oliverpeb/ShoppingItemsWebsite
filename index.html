@@ -39,6 +39,7 @@
         </table>
         <div>Total Price: {{totalPrice.price}}kr</div>
 
+
         <!-- Rest of your code -->
 
 
@@ -49,12 +50,41 @@
         <input v-model="addData.price" placeholder="price(kr)" type="number" />
         <input v-model="addData.quantity" placeholder="quantity" type="number" />
         <button v-on:click="addItem()" class="btn btn-success">Add</button>
+        {{addMessage}}
 
 
         <h2>Delete (Delete)</h2>
         <input v-model.number="deleteId" placeholder="id" type="number" />
         <button v-on:click="deleteItem(deleteId)" class="btn btn-warning">Delete</button>
         {{deleteMessage}}
+
+        <h2>Sort by price</h2>
+        <button v-on:click="sortItemsByPrice()" class="btn btn-primary">Sort</button>
+        {{sortMessage}}
+
+        <h2>Filter by quantity</h2>
+        <input v-model.number="quantityFilter" placeholder="quantity" type="number" />
+        <button v-on:click="filterItemsByQuantity()" class="btn btn-primary">Filter</button>
+        {{filterMessage}}
+
+        <h2>All items</h2>
+        <table class="table" v-if="filteredItems.length">
+            <!-- ...rest of the table... -->
+            <tr v-for="item in filteredItems">
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.price}}kr</td>
+                <td>{{item.quantity}}</td>
+            </tr>
+        </table>
+
+        <h2>Update (PUT)</h2>
+        <input v-model.number="updateId" placeholder="id" type="number" />
+        <input v-model="updateData.name" placeholder="new name" type="text" />
+        <input v-model.number="updateData.price" placeholder="new price(kr)" type="number" />
+        <input v-model.number="updateData.quantity" placeholder="new quantity" type="number" />
+        <button v-on:click="updateItem()" class="btn btn-primary">Update</button>
+        {{updateMessage}}
 
     </div>
     <script src="js/index.js"></script>
